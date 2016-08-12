@@ -201,7 +201,13 @@ class Request
 
         $result = curl_exec($this->_ch);
 
-        $response = $this->buildResponse($result);
+        try{
+        	$response = $this->buildResponse($result);
+				}
+				catch(ConnectionErrorException $e){
+					curl_close($this->_ch);
+					return false;
+				}
 
         curl_close($this->_ch);
 
